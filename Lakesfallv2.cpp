@@ -39,14 +39,14 @@ int main() {
         // boucle gauche du debut jusquau sommet Max
         for (int i = 0; i <= IndexSommetMax; i++) {
             
-            // cas ou on est dans leau pck cest plus petit que le mur de reference
+            // cas ou on est dans l'eau parce que cest plus petit que le mur de reference
             if (Liste[i] < Liste[IndexMurReference]) {
                 VolumeTemp = VolumeTemp + (Liste[IndexMurReference] - Liste[i]);
                 int ProfondeurActuelle = Liste[IndexMurReference] - Liste[i];
                 if (ProfondeurActuelle > ProfondeurMaxTemp) {
                     ProfondeurMaxTemp = ProfondeurActuelle;
                 }
-            // cas ou le lac est fini pck on a un mur plus grand ou egal au mur de reference
+            // cas ou le lac est fini parce que on a un mur plus grand ou egal au mur de reference
             } else {
                 if (VolumeTemp > 0) {
                     if (VolumeTemp > VolumeMax) {
@@ -88,19 +88,21 @@ int main() {
                     ProfondeurMaxTemp = ProfondeurActuelle;
                 }
             } else {
+                
                 if (VolumeTemp > 0) {
-                    if (VolumeTemp > VolumeMax) {
+                    if (VolumeTemp > VolumeMax || (VolumeTemp == VolumeMax && i < DebutVolume)) {
                         VolumeMax = VolumeTemp;
                         DebutVolume = i;                 
                         FinVolume = IndexMurReference;   
                     }
+                  
                     int LargeurActuelle = IndexMurReference - i - 1;
-                    if (LargeurActuelle > LargeurMax) {
+                    if (LargeurActuelle > LargeurMax || (LargeurActuelle == LargeurMax && i < DebutLargeur)) {
                         LargeurMax = LargeurActuelle;
                         DebutLargeur = i;
                         FinLargeur = IndexMurReference;
                     }
-                    if (ProfondeurMaxTemp > ProfondeurMax) {
+                    if (ProfondeurMaxTemp > ProfondeurMax || (ProfondeurMaxTemp == ProfondeurMax && i < DebutProfondeur)) {
                         ProfondeurMax = ProfondeurMaxTemp;
                         DebutProfondeur = i;
                         FinProfondeur = IndexMurReference;
@@ -121,7 +123,6 @@ int main() {
             printf("%d %d %d\n", DebutLargeur + 1, FinLargeur + 1, LargeurMax);
             printf("%d %d %d\n", DebutProfondeur + 1, FinProfondeur + 1, ProfondeurMax);
         }
-
     } 
     return 0;
 }

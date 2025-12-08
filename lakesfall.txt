@@ -1,0 +1,51 @@
+void SolveUltimate(const vector<int>& murs) {
+    int left = 0, right = murs.size() - 1;
+    int max_L = 0, max_R = 0;
+    int idx_L = 0, idx_R = right; // On mémorise la position des murs
+    
+    // Records
+    int MaxVol = 0, MaxLarg = 0, MaxProf = 0;
+    int curVol = 0; // Volume accumulé du lac en cours
+
+    while (left < right) {
+        if (murs[left] < murs[right]) {
+            // Côté GAUCHE
+            if (murs[left] >= max_L) {
+                // On touche un mur : Fin du lac précédent -> Reset
+                max_L = murs[left]; 
+                idx_L = left; // Nouveau point de départ
+                curVol = 0;
+            } else {
+                // Dans l'eau
+                curVol += (max_L - murs[left]);
+                if(curVol > MaxVol) MaxVol = curVol;
+                
+                int prof = max_L - murs[left];
+                if(prof > MaxProf) MaxProf = prof;
+                
+                int larg = left - idx_L; // Distance depuis le dernier mur
+                if(larg > MaxLarg) MaxLarg = larg;
+            }
+            left++;
+        } else {
+            // Côté DROIT (Symétrique)
+            if (murs[right] >= max_R) {
+                max_R = murs[right]; 
+                idx_R = right;
+                curVol = 0;
+            } else {
+                curVol += (max_R - murs[right]);
+                if(curVol > MaxVol) MaxVol = curVol;
+
+                int prof = max_R - murs[right];
+                if(prof > MaxProf) MaxProf = prof;
+
+                int larg = idx_R - right;
+                if(larg > MaxLarg) MaxLarg = larg;
+            }
+            right--;
+        }
+    }
+    // Affichage des résultats...
+    
+}
